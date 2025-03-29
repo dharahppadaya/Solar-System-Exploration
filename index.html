@@ -1,0 +1,170 @@
+import { useState } from "react";
+import { AlertCircle, HelpCircle, Book, UserRound } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogHeader, DialogDescription } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { useSolarSystem } from "@/lib/stores/useSolarSystem";
+import { useIsMobile } from "../hooks/use-is-mobile";
+
+const Controls = () => {
+  const [open, setOpen] = useState(false);
+  const { toggleQuiz, togglePersonalityQuiz } = useSolarSystem();
+  const isMobile = useIsMobile();
+
+  return (
+    <>
+      <div className="absolute top-0 left-0 p-4 z-10">
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => setOpen(true)}
+            className="bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-full w-10 h-10 flex items-center justify-center"
+            aria-label="Help & Controls"
+          >
+            <HelpCircle size={20} />
+          </button>
+          <button
+            onClick={toggleQuiz}
+            className="bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-full w-10 h-10 flex items-center justify-center"
+            aria-label="Start Quiz"
+          >
+            <Book size={20} />
+          </button>
+          <button
+            onClick={togglePersonalityQuiz}
+            className="bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-full w-10 h-10 flex items-center justify-center"
+            aria-label="Personality Quiz"
+          >
+            <UserRound size={20} />
+          </button>
+        </div>
+      </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Solar System Explorer Controls</DialogTitle>
+            <DialogDescription>Learn how to navigate and interact with the 3D solar system</DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-medium mb-2 flex items-center">
+                <AlertCircle size={16} className="mr-2 text-yellow-500" />
+                Navigation Controls
+              </h3>
+              {isMobile ? (
+                // Mobile navigation instructions
+                <div className="grid grid-cols-1 gap-2 text-sm">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Virtual Joystick</span>: Drag the joystick in any direction to move
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Up/Down Buttons</span>: Alternative controls for forward/backward movement
+                  </div>
+                </div>
+              ) : (
+                // Desktop navigation instructions
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">W or ↑</span>: Move forward
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">S or ↓</span>: Move backward
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">A or ←</span>: Move left
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">D or →</span>: Move right
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Q</span>: Zoom out
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">E</span>: Zoom in
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <Separator />
+
+            <div>
+              <h3 className="font-medium mb-2 flex items-center">
+                <AlertCircle size={16} className="mr-2 text-yellow-500" />
+                Interaction Controls
+              </h3>
+              {isMobile ? (
+                // Mobile interaction instructions
+                <div className="grid grid-cols-1 gap-2 text-sm">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Tap on a planet</span>: Select a planet
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Info Button (ℹ️)</span>: View planet details
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Quiz Button (❓)</span>: Take a knowledge quiz
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Personality Button (🪐)</span>: Take the personality quiz
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Tap the Sun</span>: Reset camera to default position
+                  </div>
+                </div>
+              ) : (
+                // Desktop interaction instructions
+                <div className="grid grid-cols-1 gap-2 text-sm">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Click on a planet</span>: Select a planet
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Space</span>: View detailed information about the selected planet
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Z</span>: Toggle knowledge quiz mode
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">P</span>: Take the planet personality quiz
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span className="font-medium">Click the Sun</span>: Reset camera to default position
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <Separator />
+
+            <div>
+              <h3 className="font-medium mb-2">How to use</h3>
+              {isMobile ? (
+                // Mobile usage instructions
+                <ol className="list-decimal list-inside space-y-1 text-sm">
+                  <li>Navigate using the virtual joystick at the bottom left</li>
+                  <li>Tap on a planet to select it</li>
+                  <li>Use the info button (ℹ️) to view detailed information about the selected planet</li>
+                  <li>Use the quiz button (❓) to take a knowledge quiz</li>
+                  <li>Use the personality button (🪐) to discover which planet matches your personality</li>
+                  <li>Tap on the Sun at any time to reset the camera</li>
+                </ol>
+              ) : (
+                // Desktop usage instructions
+                <ol className="list-decimal list-inside space-y-1 text-sm">
+                  <li>Navigate around the solar system using the WASD keys or arrow keys</li>
+                  <li>Click on a planet to select it</li>
+                  <li>Press Space to view detailed information about the selected planet</li>
+                  <li>Press Z to take a knowledge quiz about the solar system</li>
+                  <li>Press P to discover which planet matches your personality</li>
+                  <li>Click on the Sun at any time to reset the camera</li>
+                </ol>
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+export default Controls;
